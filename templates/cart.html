@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="breadcrumb-area pt-35 pb-35 bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="active">Cart page </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cart-main-area pt-95 pb-100">
+        <div class="container">
+            <h3 class="cart-page-title">Your cart items</h3>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-content table-responsive cart-table-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Product Name</th>
+                                    <th>Until Price</th>
+                                    <th>Qty</th>
+                                    <th>Subtotal</th>
+                                    <th>action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for ci in cart_items %}
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <a href="/product/{{ ci.product.id }}/"><img style="width: 130px;" src="/media/{{ ci.product.logo }}" alt=""></a>
+                                    </td>
+                                    <td class="product-name"><a href="/product/{{ ci.product.id }}/">{{ ci.product.title }}</a></td>
+                                    <td class="product-price-cart"><span class="amount">${{ ci.product.price }}0</span></td>
+<!--                                        <td class="product-quantity">-->
+<!--                                            <div class="cart-plus-minus">-->
+<!--                                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+                                    <td class="product-subtotal">{{ ci.amount }}</td>
+                                    <td class="product-subtotal">${{ ci.all_price }}</td>
+                                    <td class="product-remove">
+                                        <form action="/cart/" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="remove_from_cart">
+                                            <input type="hidden" name="product_id" value="{{ ci.product.id }}">
+                                            <input type="hidden" name="return_url" value="/cart/">
+                                            <button style="border: none; background-color: white; color: black; font-size: 17px;"><i class="sli sli-close"></i></button>
+                                        </form>
+                                   </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="cart-shiping-update-wrapper">
+                                <div class="cart-shiping-update">
+                                    <a href="/checkout/">Continue Shopping</a>
+                                </div>
+                                <div class="cart-clear">
+                                    <form action="/cart/" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="clear_cart">
+                                        <input type="hidden" name="return_url" value="/cart/">
+                                        <button>Clear Shopping Cart</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

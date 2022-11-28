@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="slider-area">
+        <div class="slider-active-3 owl-carousel nav-style-3">
+            {% for ms in main_slider %}
+                <div class="single-slider slider-height-3 bg-gray">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-12 col-sm-6">
+                            <div class="slider-content-2 slider-animated-1">
+                                <h1 class="animated">{{ ms.title }}</h1>
+                                <p class="animated">{{ ms.mini_description }}</p>
+                                <div class="slider-btn">
+                                    <a class="animated" href="/product/{{ ms.id }}/">Watch Now <i class="sli sli-basket-loaded"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-12 col-sm-6">
+                            <div class="slider-single-img-3 slider-animated-1">
+                                <img class="animated" src="/media/{{ ms.logo }}/" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="product-area pb-70">
+        <div class="container">
+            <div class="section-title text-center pb-40">
+                <h2>All Products</h2>
+                <p> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical</p>
+            </div>
+            <div class="product-tab-list nav pb-60 text-center">
+                {% for cat in categories %}
+                    {% if not cat.parent %}
+                        <a href="#product-{{ cat.id }}"  data-toggle="tab">
+                            <h4>{{ cat.title }}</h4>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="tab-content jump-2">
+                {% for cat in categories %}
+                    {% if not cat.parent %}
+                        <div id="product-{{ cat.id }}" class="tab-pane">
+                            <div class="ht-products product-slider-active owl-carousel">
+                                <!--Product Start-->
+                                {% for pr in all_products %}
+                                    {% if pr.category.id == cat.id %}
+                                    <div class="ht-product ht-product-action-on-hover ht-product-category-right-bottom mb-30">
+                                        <div class="ht-product-inner">
+                                            <div class="ht-product-image-wrap">
+                                                <a href="/product/{{ pr.id }}/" class="ht-product-image"> <img src="/media/{{ pr.logo }}/" alt="/media/{{ pr.logo }}/"> </a>
+                                                <div class="ht-product-action">
+                                                    <ul>
+                                                        <li><a href="#" class="js-add-to-search" data-toggle="modal" data-id="{{ pr.id }}" data-target="#exampleModal"><i class="sli sli-magnifier"></i><span class="ht-product-action-tooltip">Quick View</span></a></li>
+                                                        <li><a href="#" class="js-add-to-wish-list" data-id="{{ pr.id }}"><i class="sli sli-heart"></i><span class="ht-product-action-tooltip">Add to Wishlist</span></a></li>
+                                                        <li><a href="#" class="js-add-to-compare-list" data-id="{{ pr.id }}"><i class="sli sli-refresh"></i><span class="ht-product-action-tooltip">Add to Compare</span></a></li>
+                                                        <li><a href="#" class="js-add-to-cart" data-id="{{ pr.id }}"><i class="sli sli-bag"></i><span class="ht-product-action-tooltip">Add to Cart</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="ht-product-content">
+                                                <div class="ht-product-content-inner">
+                                                    <div class="ht-product-categories"><a href="/catalog/{{ pr.category.id }}/">{{ pr.category.title }}</a></div>
+                                                    <h4 class="ht-product-title"><a href="/product/{{ pr.id }}/">{{ pr.title }}</a></h4>
+                                                    <div class="ht-product-price">
+                                                        <span class="new">${{ pr.price }}0</span>
+                                                        <span class="old">${{ pr.old_price }}0</span>
+                                                    </div>
+                                                    <div class="ht-product-ratting-wrap">
+                                                        <span class="ht-product-ratting">
+                                                            <span class="ht-product-user-ratting" style="width: 100%;">
+                                                                {% if pr.rating > 0 %}
+                                                                <i class="sli sli-star"></i>
+                                                                {% endif %}
+                                                                {% if pr.rating > 1 %}
+                                                                <i class="sli sli-star"></i>
+                                                                {% endif %}
+                                                                {% if pr.rating > 2 %}
+                                                                <i class="sli sli-star"></i>
+                                                                {% endif %}
+                                                                {% if pr.rating > 3 %}
+                                                                <i class="sli sli-star"></i>
+                                                                {% endif %}
+                                                                {% if pr.rating > 4 %}
+                                                                <i class="sli sli-star"></i>
+                                                                {% endif %}
+                                                            </span>
+                                                        {% if pr.rating > 0 %}
+                                                        <i class="sli sli-star"></i>
+                                                        {% endif %}
+                                                        {% if pr.rating > 1 %}
+                                                        <i class="sli sli-star"></i>
+                                                        {% endif %}
+                                                        {% if pr.rating > 2 %}
+                                                        <i class="sli sli-star"></i>
+                                                        {% endif %}
+                                                        {% if pr.rating > 3 %}
+                                                        <i class="sli sli-star"></i>
+                                                        {% endif %}
+                                                        {% if pr.rating > 4 %}
+                                                        <i class="sli sli-star"></i>
+                                                        {% endif %}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="ht-product-action">
+                                                    <ul>
+                                                        <li><a href="#"><i class="sli sli-magnifier"></i><span class="ht-product-action-tooltip">Quick View</span></a></li>
+                                                        <li><a href="#"><i class="sli sli-heart"></i><span class="ht-product-action-tooltip">Add to Wishlist</span></a></li>
+                                                        <li><a href="#"><i class="sli sli-refresh"></i><span class="ht-product-action-tooltip">Add to Compare</span></a></li>
+                                                        <li><a href="#"><i class="sli sli-bag"></i><span class="ht-product-action-tooltip">Add to Cart</span></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="ht-product-countdown-wrap">
+                                                    <div class="ht-product-countdown" data-countdown="2020/01/01"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <!--Product End-->
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="feature-area pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4">
+                    <div class="single-feature mb-40">
+                        <div class="feature-icon">
+                            <img src="/static/assets/img/icon-img/free-shipping.png" alt="">
+                        </div>
+                        <div class="feature-content">
+                            <h4>Free Shipping</h4>
+                            <p>Most product are free <br>shipping.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-4 col-md-4">
+                    <div class="single-feature mb-40 pl-50">
+                        <div class="feature-icon">
+                            <img src="/static/assets/img/icon-img/support.png" alt="">
+                        </div>
+                        <div class="feature-content">
+                            <h4>Customer Support</h4>
+                            <p>24x7 Customer Support</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-4">
+                    <div class="single-feature mb-40">
+                        <div class="feature-icon">
+                            <img src="/static/assets/img/icon-img/security.png" alt="">
+                        </div>
+                        <div class="feature-content">
+                            <h4>Secure Payment</h4>
+                            <p>Most Secure Payment <br>for customer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="instagram-area section-padding-2">
+        <div class="container">
+            <div class="section-title text-center pb-45">
+                <h2>Instagram Feed</h2>
+                <p> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical</p>
+            </div>
+        </div>
+        <div class="instagram-feed-thumb">
+            <div id="instafeed" class="instagram-carousel owl-carousel" data-userid="6665768655" data-accesstoken="6665768655.1677ed0.313e6c96807c45d8900b4f680650dee5">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-12 col-xs-12">
+                            <div class="tab-content quickview-big-img">
+                                <div id="pro-1" class="tab-pane fade show active">
+                                    <img class="js-search-logo" src="" alt="">
+                                </div>
+                                <div id="pro-2" class="tab-pane fade">
+                                    <img class="js-search-logo2" src="" alt="">
+                                </div>
+                                <div id="pro-3" class="tab-pane fade">
+                                    <img class="js-search-logo3" src="" alt="">
+                                </div>
+                                <div id="pro-4" class="tab-pane fade">
+                                    <img class="js-search-logo4" src="" alt="">
+                                </div>
+                            </div>
+                            <!-- Thumbnail Large Image End -->
+                            <!-- Thumbnail Image End -->
+                            <div class="quickview-wrap mt-15">
+                                <div class="quickview-slide-active owl-carousel nav nav-style-2" role="tablist">
+                                    <a class="active" data-toggle="tab" href="#pro-1"><img style="width: 100px;" class="js-search-logo" src="" alt=""></a>
+                                    <a data-toggle="tab" href="#pro-2"><img style="width: 100px;" class="js-search-logo2" src="" alt=""></a>
+                                    <a data-toggle="tab" href="#pro-3"><img style="width: 100px;" class="js-search-logo3 " src="" alt=""></a>
+                                    <a data-toggle="tab" href="#pro-4"><img style="width: 100px;" class="js-search-logo4" src="" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-sm-12 col-xs-12">
+                            <div class="product-details-content quickview-content">
+                                <h2 class="js-search-title">
+<!--                                    place for title-->
+                                </h2>
+                                <div class="product-details-price">
+                                    <span class="js-search-price">
+<!--                                        place for price-->
+                                    </span>
+                                    <span class="old js-search-old-price">
+<!--                                        place for old price-->
+                                    </span>
+                                </div>
+                                <div class="pro-details-rating-wrap">
+                                    <div class="pro-details-rating">
+<!--                                        for views-->
+                                    </div>
+                                </div>
+<!--                                <div class="pro-details-list">-->
+<!--                                    <ul>-->
+<!--                                        <li>- 0.5 mm Dail</li>-->
+<!--                                        <li>- Inspired vector icons</li>-->
+<!--                                        <li>- Very modern style  </li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+                                <div class="pro-details-size-color">
+                                    <div class="pro-details-size">
+                                        <span>Size</span>
+                                        <div class="pro-details-size-content">
+                                            <ul>
+                                                <li class="js-search-size"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p></p>
+                                <span class="js-search-mini-title"></span>
+                                <span class="js-search-mini-description">
+<!--                                    place for mini_description-->
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,369 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="breadcrumb-area pt-35 pb-35 bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    {% if active_product.category %}
+                        <li><a href="/catalog/{{ active_product.category.id }}/">{{ active_product.category.title }}</a></li>
+                    {% endif %}
+                    <li class="active">{{ active_product.title }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top: 100px;" class="product-details-area pt-100 pb-95">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product-details-img">
+                        <div class="zoompro-border zoompro-span">
+                            <img class="zoompro" src="/media/{{ active_product.logo }}" data-zoom-image="assets/img/product-details/product-detalis-bl1.jpg" alt=""/><span>-{% if active_product.discount %} {{ active_product.discount }} {% else %} 0 {% endif %} %</span>
+<!--                            <div class="product-video">-->
+<!--                                <a class="video-popup" href="https://www.youtube.com/watch?v=tce_Ap96b0c">-->
+<!--                                    <i class="sli sli-control-play"></i>-->
+<!--                                    View Video-->
+<!--                                </a>-->
+<!--                            </div>-->
+                        </div>
+                        <div id="gallery" class="mt-20 product-dec-slider">
+                            {% if active_product.logo2 %}
+                            <a data-image="/media/{{ active_product.logo2 }}" data-zoom-image="assets/img/product-details/product-detalis-bl1.jpg">
+                                <img style="width: 110px;" src="/media/{{ active_product.logo2 }}" alt="">
+                            </a>
+                            {% endif %}
+                            {% if active_product.logo3 %}
+                            <a data-image="assets/img/product-details/product-detalis-l2.jpg" data-zoom-image="assets/img/product-details/product-detalis-bl2.jpg">
+                                <img style="width: 110px;" src="/media/{{ active_product.logo3 }}" alt="">
+                            </a>
+                            {% endif %}
+                            {% if active_product.logo4 %}
+                            <a data-image="assets/img/product-details/product-detalis-l3.jpg" data-zoom-image="assets/img/product-details/product-detalis-bl3.jpg">
+                                <img style="width: 110px;" src="/media/{{ active_product.logo4 }}" alt="">
+                            </a>
+                            {% endif %}
+                            {% if active_product.logo5 %}
+                            <a data-image="assets/img/product-details/product-detalis-l4.jpg" data-zoom-image="assets/img/product-details/product-detalis-bl4.jpg">
+                                <img style="width: 110px;" src="/media/{{ active_product.logo5 }}" alt="">
+                            </a>
+                            {% endif %}
+                            {% if active_product.logo6 %}
+                            <a data-image="assets/img/product-details/product-detalis-l5.jpg" data-zoom-image="assets/img/product-details/product-detalis-bl5.jpg">
+                                <img style="width: 110px;" src="/media/{{ active_product.logo6 }}" alt="">
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product-details-content ml-30">
+                        <h2>{{ active_product.title }}</h2>
+                        <div class="product-details-price">
+                            <span>${{ active_product.price }}0 </span>
+                            <span class="old">${{ active_product.old_price }}0 </span>
+                        </div>
+                        <div class="pro-details-rating-wrap">
+                            <div class="pro-details-rating">
+                                <i class="sli sli-star yellow"></i>
+                                <i class="sli sli-star yellow"></i>
+                                <i class="sli sli-star yellow"></i>
+                                <i class="sli sli-star yellow"></i>
+                                <i class="sli sli-star yellow"></i>
+                            </div>
+                            <span><a href="#">3 Reviews</a></span>
+                        </div>
+                        <p>{{ active_product.mini_description }}</p>
+                        <div class="pro-details-list">
+                            <ul>
+                                <li>- 0.5 mm Dail</li>
+                                <li>- Inspired vector icons</li>
+                                <li>- Very modern style  </li>
+                            </ul>
+                        </div>
+                        <div class="pro-details-size-color">
+                            <div class="pro-details-size">
+                                <span>Size</span>
+                                <div class="pro-details-size-content">
+                                    <ul>
+                                        <li>{{ active_product.size.title }} gram</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="pro-details-quality">
+                                <form action="/cart/" method="POST" style="display: flex;">
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" type="text" name="amount" value="1">
+                                    </div>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="add_to_cart">
+                                    <input type="hidden" name="product_id" value="{{ active_product.id }}">
+                                    <input type="hidden" name="return_url" value="/product/{{ active_product.id }}/">
+                                    <div class="pro-details-cart btn-hover">
+                                        <button >Add To Cart</button>
+                                    </div>
+                                </form>
+                                <form action="/cart/" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="add_to_wish_list">
+                                    <input type="hidden" name="product_id" value="{{ active_product.id }}">
+                                    <input type="hidden" name="return_url" value="/product/{{ active_product.id }}/">
+                                    <div class="pro-details-wishlist">
+                                        <button title="Add To Wishlist"><i class="sli sli-heart"></i></button>
+                                    </div>
+                                </form>
+                                <form action="/cart/" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="add_to_compare_list">
+                                    <input type="hidden" name="product_id" value="{{ active_product.id }}">
+                                    <input type="hidden" name="return_url" value="/product/{{ active_product.id }}/">
+                                    <div class="pro-details-compare">
+                                        <button title="Add To Compare"><i class="sli sli-refresh"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        <div class="pro-details-meta">
+                            <span>Categories :</span>
+                            <ul>
+                                {% if active_product.category %}
+                                    <li><a href="/catalog/{{ active_product.category.id }}/">{{ active_product.category.title }}</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="description-review-area pb-95">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <div class="description-review-wrapper">
+                        <div class="description-review-topbar nav">
+                            <a class="active" data-toggle="tab" href="#des-details1">Description</a>
+                            <a data-toggle="tab" href="#des-details3">Additional information</a>
+                            <a data-toggle="tab" href="#des-details2">Reviews (3)</a>
+                        </div>
+                        <div class="tab-content description-review-bottom">
+                            <div id="des-details1" class="tab-pane active">
+                                <div class="product-description-wrapper">
+                                    <p>{{ active_product.description1 }}</p>
+                                </div>
+                            </div>
+                            <div id="des-details3" class="tab-pane">
+                                <div class="product-anotherinfo-wrapper">
+                                    <ul>
+                                        <li><span>Weight</span> 400 g</li>
+                                        <li><span>Dimensions</span>10 x 10 x 15 cm </li>
+                                        <li><span>Materials</span> 60% cotton, 40% polyester</li>
+                                        <li><span>Other Info</span> American heirloom jean shorts pug seitan letterpress</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div id="des-details2" class="tab-pane">
+                                <div class="review-wrapper">
+                                    <div class="single-review">
+                                        <div class="review-img">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="review-content">
+                                            <p>“In convallis nulla et magna congue convallis. Donec eu nunc vel justo maximus posuere. Sed viverra nunc erat, a efficitur nibh”</p>
+                                            <div class="review-top-wrap">
+                                                <div class="review-name">
+                                                    <h4>Stella McGee</h4>
+                                                </div>
+                                                <div class="review-rating">
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="single-review">
+                                        <div class="review-img">
+                                            <img src="assets/img/product-details/client-2.jpg" alt="">
+                                        </div>
+                                        <div class="review-content">
+                                            <p>“In convallis nulla et magna congue convallis. Donec eu nunc vel justo maximus posuere. Sed viverra nunc erat, a efficitur nibh”</p>
+                                            <div class="review-top-wrap">
+                                                <div class="review-name">
+                                                    <h4>Stella McGee</h4>
+                                                </div>
+                                                <div class="review-rating">
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="single-review">
+                                        <div class="review-img">
+                                            <img src="assets/img/product-details/client-3.jpg" alt="">
+                                        </div>
+                                        <div class="review-content">
+                                            <p>“In convallis nulla et magna congue convallis. Donec eu nunc vel justo maximus posuere. Sed viverra nunc erat, a efficitur nibh”</p>
+                                            <div class="review-top-wrap">
+                                                <div class="review-name">
+                                                    <h4>Stella McGee</h4>
+                                                </div>
+                                                <div class="review-rating">
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                    <i class="sli sli-star"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ratting-form-wrapper">
+                                    <span>Add a Review</span>
+                                    <p>Your email address will not be published. Required fields are marked <span>*</span></p>
+                                    <div class="star-box-wrap">
+                                        <div class="single-ratting-star">
+                                            <i class="sli sli-star"></i>
+                                        </div>
+                                        <div class="single-ratting-star">
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                        </div>
+                                        <div class="single-ratting-star">
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                        </div>
+                                        <div class="single-ratting-star">
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                        </div>
+                                        <div class="single-ratting-star">
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                            <i class="sli sli-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ratting-form">
+                                        <form action="#">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="rating-form-style mb-20">
+                                                        <label>Your review <span>*</span></label>
+                                                        <textarea name="Your Review"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="rating-form-style mb-20">
+                                                       <label>Name <span>*</span></label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="rating-form-style mb-20">
+                                                       <label>Email <span>*</span></label>
+                                                        <input type="email">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-submit">
+                                                        <input type="submit" value="Submit">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="pro-dec-banner">
+                        <a href="#"><img src="/media/{{ active_product.logo3 }}" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-area pb-70">
+        <div class="container">
+            <div class="section-title text-center pb-60">
+                <h2>Related products</h2>
+                <p> Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical</p>
+            </div>
+            <div class="arrivals-wrap scroll-zoom">
+                <div class="ht-products product-slider-active owl-carousel">
+                    <!--Product Start-->
+                    {% for r in related_products %}
+                        <div class="ht-product ht-product-action-on-hover ht-product-category-right-bottom mb-30">
+                        <div class="ht-product-inner">
+                            <div class="ht-product-image-wrap">
+                                <a href="/product/{{ r.id }}/" class="ht-product-image"> <img src="/media/{{ r.logo }}/" alt="Universal Product Style"> </a>
+                                <div class="ht-product-action">
+                                    <ul>
+                                        <li><a href="#" data-toggle="modal" data-target="#exampleModal"><i class="sli sli-magnifier"></i><span class="ht-product-action-tooltip">Quick View</span></a></li>
+                                        <li><a href="#"><i class="sli sli-heart"></i><span class="ht-product-action-tooltip">Add to Wishlist</span></a></li>
+                                        <li><a href="#"><i class="sli sli-refresh"></i><span class="ht-product-action-tooltip">Add to Compare</span></a></li>
+                                        <li><a href="#"><i class="sli sli-bag"></i><span class="ht-product-action-tooltip">Add to Cart</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="ht-product-content">
+                                <div class="ht-product-content-inner">
+                                    <div class="ht-product-categories"><a href="/catalog/{{ r.category.id }}/">{{ r.category.title }}</a></div>
+                                    <h4 class="ht-product-title"><a href="#">{{ r.title }}</a></h4>
+                                    <div class="ht-product-price">
+                                        <span class="new">${{ r.price }}0</span>
+                                    </div>
+                                    <div class="ht-product-ratting-wrap">
+                                        <span class="ht-product-ratting">
+                                            <span class="ht-product-user-ratting" style="width: 100%;">
+                                                <i class="sli sli-star"></i>
+                                                <i class="sli sli-star"></i>
+                                                <i class="sli sli-star"></i>
+                                                <i class="sli sli-star"></i>
+                                                <i class="sli sli-star"></i>
+                                            </span>
+                                        <i class="sli sli-star"></i>
+                                        <i class="sli sli-star"></i>
+                                        <i class="sli sli-star"></i>
+                                        <i class="sli sli-star"></i>
+                                        <i class="sli sli-star"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ht-product-action">
+                                    <ul>
+                                        <li><a href="#"><i class="sli sli-magnifier"></i><span class="ht-product-action-tooltip">Quick View</span></a></li>
+                                        <li><a href="#"><i class="sli sli-heart"></i><span class="ht-product-action-tooltip">Add to Wishlist</span></a></li>
+                                        <li><a href="#"><i class="sli sli-refresh"></i><span class="ht-product-action-tooltip">Add to Compare</span></a></li>
+                                        <li><a href="#"><i class="sli sli-bag"></i><span class="ht-product-action-tooltip">Add to Cart</span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="ht-product-countdown-wrap">
+                                    <div class="ht-product-countdown" data-countdown="2020/01/01"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!--Product End-->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

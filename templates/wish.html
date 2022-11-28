@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="breadcrumb-area pt-35 pb-35 bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="active">wishlist </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cart-main-area pt-95 pb-100">
+        <div class="container">
+            <h3 class="cart-page-title">Your cart items</h3>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-content table-responsive cart-table-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Product Name</th>
+                                    <th>Until Price</th>
+                                    <th>Category</th>
+                                    <th>Add To Cart</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for wi in wish_list %}
+                                    <tr>
+                                    <td class="product-thumbnail">
+                                        <a href="/product/{{ wi.product.id }}/"><img style="width: 150px;" src="/media/{{ wi.product.logo }}/" alt=""></a>
+                                    </td>
+                                    <td class="product-name"><a href="/product/{{ wi.product.id }}/">{{ wi.product.title }}</a></td>
+                                    <td class="product-price-cart"><span class="amount">${{ wi.product.price }}0</span></td>
+                                    <td class="product-quantity"><span class="amount">{{ wi.product.category.title }}</span></td>
+                                    <td class="product-wishlist-cart">
+                                        <form action="/cart/" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="add_to_cart">
+                                            <input type="hidden" name="product_id" value="{{ wi.product.id }}">
+                                            <input type="hidden" name="amount" value="1">
+                                            <input type="hidden" name="return_url" value="/wishlist/">
+                                            <button title="Add to Cart" style="font-size: 24px;"><i class="sli sli-bag"></i></button>
+                                        </form>
+                                    </td>
+                                    <td class="product-wishlist-cart">
+                                        <form action="/cart/" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="remove_from_wish_list">
+                                            <input type="hidden" name="product_id" value="{{ wi.product.id }}">
+                                            <input type="hidden" name="return_url" value="/wishlist/">
+                                            <button title="Remove from Wishlist"><i class="sli sli-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
